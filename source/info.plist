@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.lorisguignard.producthunt</string>
+	<key>connections</key>
+	<dict>
+		<key>C9C6DA67-FAB2-4488-9297-79E23F984C2E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Loris Guignard</string>
+	<key>description</key>
+	<string>List Product Hunt today's hunts</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Product Hunt</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>hunt</string>
+				<key>runningsubtext</key>
+				<string>Fetching data...</string>
+				<key>script</key>
+				<string>from ph import get_items
+
+uri = 'http://hook-api.herokuapp.com/today'
+print(get_items(uri, "{query}"))</string>
+				<key>subtext</key>
+				<string>List Product Hunt today's hunt</string>
+				<key>title</key>
+				<string>Product Hunt</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>C9C6DA67-FAB2-4488-9297-79E23F984C2E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>C9C6DA67-FAB2-4488-9297-79E23F984C2E</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://www.lorisguignard.com</string>
+</dict>
+</plist>
