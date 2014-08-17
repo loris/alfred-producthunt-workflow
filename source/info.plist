@@ -42,8 +42,9 @@
 				<key>script</key>
 				<string>from ph import get_items
 
-uri = 'http://hook-api.herokuapp.com/today'
-print(get_items(uri, "{query}"))</string>
+uri = 'https://api.producthunt.com/v1/posts'
+access_token = '143499ff27e4bbfcd3ada84540a4991753290d2fb3e642f806af489a4803c13d'
+print(get_items(uri, access_token, "{query}"))</string>
 				<key>subtext</key>
 				<string>List Product Hunt today's hunt</string>
 				<key>title</key>

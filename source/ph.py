@@ -4,13 +4,15 @@ import time
 from xml.etree import ElementTree as ET
 
 
-def get_items(uri, query=None):
+def get_items(uri, access_token, query=None):
     items = []
-    data = json.loads(urllib2.urlopen(uri).read())
-    sorted_data = sorted(data['hunts'], key=lambda k: k['votes'], reverse=True)
-    for item in sorted_data:
-        if 'permalink' in item:
-            if query is None or query.lower() in item['title'].lower() or query.lower() in item['tagline'].lower():
+    request = urllib2.Request(uri)
+    request.add_header('Authorization', 'Bearer '+ access_token)
+    data = json.loads(urllib2.urlopen(request).read())
+    # sorted_data = sorted(data['posts'], key=lambda k: k['votes_count'], reverse=True)
+    for item in data['posts']:
+        if 'id' in item:
+            if query is None or query.lower() in item['name'].lower() or query.lower() in item['tagline'].lower():
                 result = parse_item(item)
                 items.append(result)
 
@@ -33,10 +35,10 @@ def generate_xml(items):
 
 def parse_item(item):
     return {
-        'uid': '%s%s' % (item['permalink'], time.time()),
-        'arg': item['url'],
-        'title': '%s - %s' % (item['title'], item['tagline']),
-        'subtitle': '%s | %s | hunted by %s' % (plural(item['votes'], 'vote'), plural(item['comment_count'], 'comment'), item['user']['name']),
+        'uid': '%s%s' % (item['id'], time.time()),
+        'arg': item['redirect_url'],
+        'title': '%s - %s' % (item['name'], item['tagline']),
+        'subtitle': '%s | %s | hunted by %s' % (plural(item['votes_count'], 'vote'), plural(item['comments_count'], 'comment'), item['user']['name']),
         'icon': 'icon.png'
     }
 
