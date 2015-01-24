@@ -4,10 +4,9 @@ import time
 from xml.etree import ElementTree as ET
 
 
-def get_items(uri, access_token, query=None):
+def get_items(uri, query=None):
     items = []
     request = urllib2.Request(uri)
-    request.add_header('Authorization', 'Bearer '+ access_token)
     data = json.loads(urllib2.urlopen(request).read())
     # sorted_data = sorted(data['posts'], key=lambda k: k['votes_count'], reverse=True)
     for item in data['posts']:
