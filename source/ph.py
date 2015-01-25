@@ -23,9 +23,9 @@ def main(wf):
     if posts:
         for post in posts:
             wf.add_item(
-                '%s - %s' % (post['name'], post['tagline']),
-                '%s | %s | hunted by %s' % (plural(post['votes_count'], 'vote'), plural(post['comments_count'], 'comment'), post['user']['name']),
-                arg=post['redirect_url'],
+                u'%s - %s' % (post['name'], post['tagline']),
+                u'%s | %s | hunted by %s' % (plural(post['votes_count'], 'vote'), plural(post['comments_count'], 'comment'), post['user']['name']),
+                arg=u'%s %s' % (post['redirect_url'], post['discussion_url']),
                 valid=True,
                 icon=u'icon.png',
                 uid=u'%s%s' % (post['id'], time.time())

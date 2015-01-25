@@ -6,15 +6,36 @@
 	<string>com.lorisguignard.producthunt</string>
 	<key>connections</key>
 	<dict>
-		<key>C9C6DA67-FAB2-4488-9297-79E23F984C2E</key>
+		<key>5E551633-DDC8-4374-971A-3ADE8CBCEC0E</key>
+		<array/>
+		<key>B31255FE-A813-48F6-9FA1-E5271CDC79F7</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</string>
+				<string>C9C6DA67-FAB2-4488-9297-79E23F984C2E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+			</dict>
+		</array>
+		<key>C9C6DA67-FAB2-4488-9297-79E23F984C2E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5E551633-DDC8-4374-971A-3ADE8CBCEC0E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>3FE58F18-B2E0-4348-A971-D488AAEBAD45</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>View comments</string>
 			</dict>
 		</array>
 	</dict>
@@ -28,6 +49,50 @@
 	<string>Product Hunt</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>open $(echo {query} | cut -d ' ' -f1)</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>5E551633-DDC8-4374-971A-3ADE8CBCEC0E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>hotkey</key>
+				<integer>4</integer>
+				<key>hotmod</key>
+				<integer>1835008</integer>
+				<key>hotstring</key>
+				<string>H</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>B31255FE-A813-48F6-9FA1-E5271CDC79F7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -60,17 +125,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>plusspaces</key>
-				<false/>
-				<key>url</key>
-				<string>{query}</string>
-				<key>utf8</key>
-				<true/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>open $(echo {query} | cut -d ' ' -f2)</string>
+				<key>type</key>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</string>
+			<string>3FE58F18-B2E0-4348-A971-D488AAEBAD45</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -79,15 +144,25 @@
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>3FE58F18-B2E0-4348-A971-D488AAEBAD45</key>
+		<dict>
+			<key>ypos</key>
+			<real>290</real>
+		</dict>
+		<key>5E551633-DDC8-4374-971A-3ADE8CBCEC0E</key>
+		<dict>
+			<key>ypos</key>
+			<real>90</real>
+		</dict>
+		<key>B31255FE-A813-48F6-9FA1-E5271CDC79F7</key>
+		<dict>
+			<key>ypos</key>
+			<real>190</real>
+		</dict>
 		<key>C9C6DA67-FAB2-4488-9297-79E23F984C2E</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
-		</dict>
-		<key>E4D7EF60-EA59-4CD5-83CD-9C1EE6BEED0B</key>
-		<dict>
-			<key>ypos</key>
-			<real>10</real>
+			<real>190</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>
