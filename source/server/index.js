@@ -32,7 +32,7 @@ var fetchPosts = function (callback) {
 
 http.createServer(function (req, res) {
   if (req.url === '/v1/posts') {
-    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
     res.end(cachedPosts);
   } else {
     res.writeHead(404);

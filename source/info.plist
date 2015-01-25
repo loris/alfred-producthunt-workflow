@@ -34,22 +34,19 @@
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
-				<integer>0</integer>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>hunt</string>
 				<key>runningsubtext</key>
 				<string>Fetching data...</string>
 				<key>script</key>
-				<string>from ph import get_items
-
-uri = 'https://api.producthunt.com/v1/posts'
-print(get_items(uri, "{query}"))</string>
+				<string>python ph.py "{query}"</string>
 				<key>subtext</key>
 				<string>List Product Hunt today's hunt</string>
 				<key>title</key>
 				<string>Product Hunt</string>
 				<key>type</key>
-				<integer>3</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>

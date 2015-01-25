@@ -1,46 +1,49 @@
-import json
-import urllib2
+#!/usr/bin/python
+# encoding: utf-8
+
+import sys
 import time
-from xml.etree import ElementTree as ET
 
+from workflow import ICON_WARNING, web, Workflow
 
-def get_items(uri, query=None):
-    items = []
-    request = urllib2.Request(uri)
-    data = json.loads(urllib2.urlopen(request).read())
-    # sorted_data = sorted(data['posts'], key=lambda k: k['votes_count'], reverse=True)
-    for item in data['posts']:
-        if 'id' in item:
-            if query is None or query.lower() in item['name'].lower() or query.lower() in item['tagline'].lower():
-                result = parse_item(item)
-                items.append(result)
+log = None
 
-    xml = generate_xml(items)
-    return xml
-
-
-def generate_xml(items):
-    xml_items = ET.Element('items')
-    for item in items:
-        xml_item = ET.SubElement(xml_items, 'item')
-        for key in item.keys():
-            if key is 'uid' or key is 'arg':
-                xml_item.set(key, item[key])
-            else:
-                child = ET.SubElement(xml_item, key)
-                child.text = item[key]
-    print(ET.tostring(xml_items))
-
-
-def parse_item(item):
-    return {
-        'uid': '%s%s' % (item['id'], time.time()),
-        'arg': item['redirect_url'],
-        'title': '%s - %s' % (item['name'], item['tagline']),
-        'subtitle': '%s | %s | hunted by %s' % (plural(item['votes_count'], 'vote'), plural(item['comments_count'], 'comment'), item['user']['name']),
-        'icon': 'icon.png'
-    }
+def get_posts():
+    response = web.get('https://alfred-producthunt-workflow.herokuapp.com/v1/posts').json()
+    return response['posts']
 
 def plural(num=0, text=''):
     num = int(num)
     return '%d %s%s' % (num, text, 's'[num==1:])
+
+def main(wf):
+
+    posts = wf.cached_data('posts', get_posts, max_age=60)
+
+    if posts:
+        for post in posts:
+            wf.add_item(
+                '%s - %s' % (post['name'], post['tagline']),
+                '%s | %s | hunted by %s' % (plural(post['votes_count'], 'vote'), plural(post['comments_count'], 'comment'), post['user']['name']),
+                arg=post['redirect_url'],
+                valid=True,
+                icon=u'icon.png',
+                uid=u'%s%s' % (post['id'], time.time())
+            )
+    else:
+        wf.add_item('No items', icon=ICON_WARNING)
+
+    wf.send_feedback()
+
+if __name__ == '__main__':
+    wf = Workflow(update_settings={
+        'github_slug': 'loris/alfred-producthunt-workflow',
+        'version': '1.0',
+        'frequency': 1
+    })
+
+    if wf.update_available:
+        wf.start_update()
+
+    log = wf.logger
+    sys.exit(wf.run(main))
