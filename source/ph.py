@@ -2,9 +2,8 @@
 # encoding: utf-8
 
 import sys
-import time
 
-from workflow import ICON_WARNING, web, Workflow
+from workflow import web, Workflow
 
 log = None
 
@@ -18,32 +17,75 @@ def plural(num=0, text=''):
 
 def main(wf):
 
-    posts = wf.cached_data('posts', get_posts, max_age=60)
+    posts           = wf.cached_data('posts', get_posts, max_age=5*60)
+    read_post_ids   = wf.stored_data('read_post_ids') or []
+    displayed_posts = False
 
     if posts:
         for post in posts:
-            wf.add_item(
-                u'%s - %s' % (post['name'], post['tagline']),
-                u'%s | %s | hunted by %s' % (plural(post['votes_count'], 'vote'), plural(post['comments_count'], 'comment'), post['user']['name']),
-                arg=u'%s %s' % (post['redirect_url'], post['discussion_url']),
-                valid=True,
-                icon=u'icon.png',
-                uid=u'%s%s' % (post['id'], time.time())
-            )
+            if post['id'] not in read_post_ids:
+                displayed_posts = True
+                wf.add_item(
+                    post['name'],
+                    post['tagline'],
+                    arg=u'open|%s|%s|%s' % (post['id'], post['redirect_url'], post['discussion_url']),
+                    modifier_subtitles={
+                        u'cmd': u'%s | %s | hunted by %s' % (plural(post['votes_count'], 'vote'), plural(post['comments_count'], 'comment'), post['user']['name'])
+                    },
+                    copytext=post['redirect_url'],
+                    valid=True,
+                    icon=u'link.png'
+                )
+
+    if displayed_posts:
+        wf.add_item(
+            u'Mark all as read',
+            u'Hide above posts from now on',
+            arg=u'mark_all_as_read',
+            modifier_subtitles={
+                u'cmd': u'Restore hidden posts'
+            },
+            valid=True,
+            icon=u'check.png'
+        )
     else:
-        wf.add_item('No items', icon=ICON_WARNING)
+        wf.add_item(
+            u'No posts',
+            u'Restore hidden posts',
+            arg=u'mark_all_as_unread',
+            modifier_subtitles={
+                u'cmd': u'Restore hidden posts'
+            },
+            valid=True,
+            icon=u'error.png'
+        )
 
     wf.send_feedback()
+
+def mark_all_as_read(wf):
+    posts   = wf.cached_data('posts', get_posts, max_age=5*60)
+    ids     = map(lambda x:x['id'], posts)
+
+    wf.store_data('read_post_ids', ids)
+
+def mark_all_as_unread(wf):
+    wf.store_data('read_post_ids', None)
 
 if __name__ == '__main__':
     wf = Workflow(update_settings={
         'github_slug': 'loris/alfred-producthunt-workflow',
-        'version': '1.0',
+        'version': '1.1',
         'frequency': 1
     })
 
-    if wf.update_available:
-        wf.start_update()
+    log     = wf.logger
+    command = wf.args[0]
 
-    log = wf.logger
-    sys.exit(wf.run(main))
+    if command == 'mark_all_as_read':
+        sys.exit(wf.run(mark_all_as_read))
+    elif command == 'mark_all_as_unread':
+        sys.exit(wf.run(mark_all_as_unread))
+    else:
+        if wf.update_available:
+            wf.start_update()
+        sys.exit(wf.run(main))

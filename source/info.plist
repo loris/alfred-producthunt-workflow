@@ -6,8 +6,28 @@
 	<string>com.lorisguignard.producthunt</string>
 	<key>connections</key>
 	<dict>
+		<key>3FE58F18-B2E0-4348-A971-D488AAEBAD45</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8DEFD014-C270-4939-8073-7C2E7791B95D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>5E551633-DDC8-4374-971A-3ADE8CBCEC0E</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8DEFD014-C270-4939-8073-7C2E7791B95D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>B31255FE-A813-48F6-9FA1-E5271CDC79F7</key>
 		<array>
 			<dict>
@@ -35,7 +55,7 @@
 				<key>modifiers</key>
 				<integer>1048576</integer>
 				<key>modifiersubtext</key>
-				<string>View comments</string>
+				<string></string>
 			</dict>
 		</array>
 	</dict>
@@ -55,7 +75,20 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>open $(echo {query} | cut -d ' ' -f1)</string>
+				<string>command=$(echo "{query}" | cut -d '|' -f1)
+id=$(echo "{query}" | cut -d '|' -f2)
+url=$(echo "{query}" | cut -d '|' -f3)
+alt_url=$(echo "{query}" | cut -d '|' -f4)
+
+if [ "$command" = "open" ]; then
+    open $url
+elif [ "$command" = "mark_all_as_read" ]; then
+    python ph.py mark_all_as_read
+    echo "All posts marked as read"
+elif [ "$command" = "mark_all_as_unread" ]; then
+    python ph.py mark_all_as_unread
+    echo "All posts restored"
+fi</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -102,10 +135,18 @@
 				<integer>102</integer>
 				<key>keyword</key>
 				<string>hunt</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
 				<key>runningsubtext</key>
 				<string>Fetching data...</string>
 				<key>script</key>
-				<string>python ph.py "{query}"</string>
+				<string>python ph.py main "{query}"</string>
 				<key>subtext</key>
 				<string>List Product Hunt today's hunt</string>
 				<key>title</key>
@@ -125,10 +166,45 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Product Hunt</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>8DEFD014-C270-4939-8073-7C2E7791B95D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>open $(echo {query} | cut -d ' ' -f2)</string>
+				<string>command=$(echo "{query}" | cut -d '|' -f1)
+id=$(echo "{query}" | cut -d '|' -f2)
+url=$(echo "{query}" | cut -d '|' -f3)
+alt_url=$(echo "{query}" | cut -d '|' -f4)
+
+if [ "$command" = "open" ]; then
+    open $alt_url
+elif [ "$command" = "mark_all_as_read" ]; then
+    python ph.py mark_all_as_unread
+    echo "All posts restored"
+fi</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -154,6 +230,11 @@
 			<key>ypos</key>
 			<real>90</real>
 		</dict>
+		<key>8DEFD014-C270-4939-8073-7C2E7791B95D</key>
+		<dict>
+			<key>ypos</key>
+			<real>190</real>
+		</dict>
 		<key>B31255FE-A813-48F6-9FA1-E5271CDC79F7</key>
 		<dict>
 			<key>ypos</key>
@@ -166,6 +247,6 @@
 		</dict>
 	</dict>
 	<key>webaddress</key>
-	<string>http://www.lorisguignard.com</string>
+	<string>https://github.com/loris/alfred-producthunt-workflow</string>
 </dict>
 </plist>

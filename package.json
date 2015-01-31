@@ -7,9 +7,7 @@
     "request": "^2.51.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "scripts": {},
+  "author": "Loris Guignard <loris.guignard@gmail.com>",
   "license": "ISC"
 }
