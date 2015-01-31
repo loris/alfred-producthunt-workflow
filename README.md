@@ -7,6 +7,13 @@ A workflow for Alfred 2 to get today's hunts from Product Hunt.
 
 ### Features
 
+* List all posts from today sorted by popularity
+    - `⏎` to open product website in default browser
+    - `⌘` to display product metadata (votes, comments, hunter)
+    - `⌘ + ⏎` to open product page on Product Hunt website
+* Mark posts as read (they will be hidden from now on)
+    - `⏎` to hide all visible posts
+    - `⌘ + ⏎` to restore posts from today
 * Workflow auto-update mechanism
 * Client and server-side caching for fast display
 
