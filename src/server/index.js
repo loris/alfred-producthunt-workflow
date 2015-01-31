@@ -1,8 +1,11 @@
 /* global process */
+/* global setTimeout */
 var http = require('http'),
-  request = require('request');
+  request = require('request'),
+  morgan = require('morgan');
 
 var cachedPosts;
+var logger = morgan(':remote-addr - ":method :url HTTP/:http-version" :status - :response-time ms ":user-agent"');
 
 var fetchPosts = function (callback) {
   var opts = {
@@ -31,12 +34,14 @@ var fetchPosts = function (callback) {
 })();
 
 http.createServer(function (req, res) {
-  if (req.url === '/v1/posts') {
-    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-    res.end(cachedPosts);
-  } else {
-    res.writeHead(404);
-    res.end('Not Found');
-  }
+  logger(req, res, function () {
+    if (req.url === '/v1/posts') {
+      res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+      res.end(cachedPosts);
+    } else {
+      res.writeHead(404);
+      res.end('Not Found');
+    }
+  });
 }).listen(process.env.PORT || 3000);
 

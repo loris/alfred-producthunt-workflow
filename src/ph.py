@@ -8,7 +8,16 @@ from workflow import web, Workflow
 log = None
 
 def get_posts():
-    response = web.get('https://alfred-producthunt-workflow.herokuapp.com/v1/posts').json()
+    url = 'https://alfred-producthunt-workflow.herokuapp.com/v1/posts'
+    headers = {
+        'user-agent': u'Alfred/%s.%s AlfredProductHuntWorkflow/%s/%s' % (
+            wf.alfred_env.get('version'),
+            wf.alfred_env.get('version_build'),
+            wf.version,
+            wf.alfred_env.get('workflow_uid')
+        )
+    }
+    response = web.get(url, headers=headers).json()
     return response['posts']
 
 def plural(num=0, text=''):
@@ -74,7 +83,7 @@ def mark_all_as_unread(wf):
 if __name__ == '__main__':
     wf = Workflow(update_settings={
         'github_slug': 'loris/alfred-producthunt-workflow',
-        'version': '1.1',
+        'version': '1.2',
         'frequency': 1
     })
 
